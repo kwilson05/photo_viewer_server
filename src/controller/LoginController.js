@@ -1,46 +1,44 @@
-const UsersFactory = require('../models/UsersFactory')
-const SecureCookieOptions = require('../policies/SecureCookieOptions')
-const JWT = require('../policies/JWT')
-const PasswordComparer = require('../utils/PasswordComparer')
-
+const UserDbo = require('../models/UserDbo');
+const SecureCookieOptions = require('../policies/SecureCookieOptions');
+const JWT = require('../policies/JWT');
+const passwordComparer = require('../utils/PasswordComparer');
 
 module.exports = {
+  async login(req, res) {
+    try {
+      const { email, password } = req.body;
 
-    async login (req, res) {
-        try {
-            const usersFactory = new UsersFactory();
+      const foundUser = await UserDbo.findByEmail(email);
 
+      if (!foundUser) {
+        return res.status(403).send({
+          error: 'The login information was incorrect',
+        });
+      }
 
-            const { email, password } = req.body
+      //compare user entered password vs hashed password
+      const isPasswordValid = await passwordComparer(
+        password,
+        foundUser.password
+      );
 
+      if (!isPasswordValid) {
+        return res.status(403).send({
+          error: 'The login information was incorrect',
+        });
+      }
 
-            const userJson = await usersFactory.byEmail(email)
+      const token = await JWT.signUser(userJson);
 
-            if (!userJson) {
-                return res.status(403).send({
-                    error: 'The login information was incorrect'
-                })
-            }
-
-            //compare user entered password vs hashed password
-            const isPasswordValid = await PasswordComparer.compare(password, userJson.password)
-
-            if (!isPasswordValid) {
-                return res.status(403).send({
-                    error: 'The login information was incorrect'
-                })
-            }
-
-            const token = await JWT.signUser(userJson)
-
-
-            res.send(token)
-        } catch (err) {
-            console.log(err)
-            res.status(400).send({
-                error: 'The login information was incorrect'
-            })
-        }
+      res.cookie(JWT.cookieName, token, SecureCookieOptions.cookieOptions());
+      res.send({
+        email: user.email,
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(400).send({
+        error: 'This email account or username is already in use',
+      });
     }
-
-}
+  },
+};
