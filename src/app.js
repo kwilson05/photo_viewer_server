@@ -13,14 +13,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 //setup cors
-/*const corsMod = cors({
+const corsMod = cors({
   origin: config.clientDomain,
   credentials: true,
   methods: ['GET', 'PUT', 'OPTIONS', 'POST', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'origin']
-})
+  allowedHeaders: ['Content-Type', 'origin'],
+});
 
-app.use(corsMod)*/
+app.use(corsMod);
 
 require('./routes/index')(app);
 

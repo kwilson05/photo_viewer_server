@@ -15,7 +15,7 @@ module.exports = {
     } else {
       return {
         httpOnly: true,
-        domain: 'localhost',
+        domain: config.clientDomain,
         expires: expireDate,
         path: '/',
         sameSite: 'none',

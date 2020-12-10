@@ -8,6 +8,7 @@ module.exports = {
     try {
       const { email, password } = req.body;
 
+      console.log(email);
       const foundUser = await UserDbo.findByEmail(email);
 
       if (!foundUser) {
