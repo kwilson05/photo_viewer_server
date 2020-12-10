@@ -1,4 +1,5 @@
-const primsa = require('@prisma/client');
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
 
 class User {
   static async create(user) {
@@ -20,3 +21,5 @@ class User {
     });
   }
 }
+
+module.exports = User;

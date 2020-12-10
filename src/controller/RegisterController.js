@@ -13,13 +13,13 @@ module.exports = {
         lastName: req.body.lastName,
         password: hashPassword,
       };
-      console.log(user);
-      /*await UserDbo.create({
+
+      await UserDbo.create({
         email: req.body.email,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         password: hashPassword,
-      });*/
+      });
 
       const token = await JWT.signUser(user);
 
@@ -30,7 +30,7 @@ module.exports = {
     } catch (err) {
       console.log(err);
       res.status(400).send({
-        error: 'This email account or username is already in use',
+        error: 'This email account is already in use',
       });
     }
   },

@@ -28,12 +28,10 @@ module.exports = {
         });
       }
 
-      const token = await JWT.signUser(userJson);
+      const token = await JWT.signUser(foundUser);
 
       res.cookie(JWT.cookieName, token, SecureCookieOptions.cookieOptions());
-      res.send({
-        email: user.email,
-      });
+      res.send({ email: foundUser.email });
     } catch (err) {
       console.log(err);
       res.status(400).send({
