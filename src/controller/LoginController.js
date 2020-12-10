@@ -35,7 +35,7 @@ module.exports = {
     } catch (err) {
       console.log(err);
       res.status(400).send({
-        error: 'This email account or username is already in use',
+        error: 'You entered a wrong email or password',
       });
     }
   },
