@@ -31,8 +31,7 @@ module.exports = {
 
       const token = await JWT.signUser(foundUser);
 
-      res.cookie(JWT.cookieName, token, SecureCookieOptions.cookieOptions());
-      res.send({ email: foundUser.email });
+      res.send({ token: token });
     } catch (err) {
       console.log(err);
       res.status(400).send({

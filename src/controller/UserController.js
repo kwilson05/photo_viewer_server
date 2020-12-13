@@ -6,7 +6,7 @@ const passwordComparer = require('../utils/PasswordComparer');
 module.exports = {
   async get(req, res) {
     try {
-      res.send({ email: 'kasoziwilson@gmail.com' });
+      res.send({ user: { email: 'kasoziwilson@gmail.com' } });
     } catch (err) {
       console.log(err);
       res.status(400).send({

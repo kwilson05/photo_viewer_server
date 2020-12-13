@@ -9,7 +9,7 @@ function jwtClaims(user) {
 }
 
 module.exports = {
-  cookieName: 'auth_token',
+  cookieName: 'auth_cookie',
 
   async signUser(user) {
     try {
