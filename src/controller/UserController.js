@@ -6,7 +6,14 @@ const passwordComparer = require('../utils/PasswordComparer');
 module.exports = {
   async get(req, res) {
     try {
-      res.send({ user: { email: 'kasoziwilson@gmail.com' } });
+      if (req.headers.authorization) {
+        let user = await JWT.verifyUser(req.headers.authorization);
+        res.send({ user: { id: user.sub, email: user.email } });
+      } else {
+        return res.status(403).send({
+          error: "You're not allowed to access this page",
+        });
+      }
     } catch (err) {
       console.log(err);
       res.status(400).send({

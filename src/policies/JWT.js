@@ -25,15 +25,13 @@ module.exports = {
   },
 
   async verifyUser(jwtToken) {
-    let user = null;
-
     try {
-      userJwt = await jwt.verify(jwtToken, config.authentication.jwtSecret);
+      return await jwt.verify(jwtToken, config.authentication.jwtSecret);
     } catch (err) {
       console.log(err);
       console.log(`Invalid JWT token sent ${jwtToken}`);
     }
 
-    return userJwt;
+    return null;
   },
 };
