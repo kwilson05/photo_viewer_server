@@ -17,13 +17,7 @@ const corsMod = cors({
   origin: config.clientDomain,
   credentials: true,
   methods: ['GET', 'PUT', 'OPTIONS', 'POST', 'DELETE'],
-  allowedHeaders: [
-    'Content-Type',
-    'origin',
-    'Authorization',
-    'boundary',
-    'Boundary',
-  ],
+  allowedHeaders: ['Content-Type', 'origin', 'Authorization'],
 });
 
 app.use(corsMod);
