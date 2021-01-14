@@ -7,7 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model ImageFile {
+model imagefile {
   id             Int       @id @default(autoincrement())
   filePath       String    @unique
   title          String?
@@ -16,7 +16,7 @@ model ImageFile {
   createdDate    DateTime  @default(now())
 }
 
-model User {
+model users {
   id        Int    @id @default(autoincrement())
   email     String @unique
   firstName String

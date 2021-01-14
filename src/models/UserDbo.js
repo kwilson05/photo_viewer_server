@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 
 class User {
   static async create(user) {
-    return await prisma.user.create({
+    return await prisma.users.create({
       data: {
         email: user.email,
         firstName: user.firstName,
@@ -14,7 +14,7 @@ class User {
   }
 
   static async findByEmail(email) {
-    return await prisma.user.findUnique({
+    return await prisma.users.findUnique({
       where: {
         email: email,
       },

@@ -1,18 +1,25 @@
-const { Storage } = require('@google-cloud/storage');
-const storage = new Storage({
-  projectId: process.env.GCS_PROJECT_ID,
-  credentials: JSON.parse(process.env.GCS_KEY_FILE),
-});
-const myBucket = storage.bucket(process.env.GCS_BUCKET_NAME);
+const ImageCloudStorage = require('../models/ImageCloudStorage');
+const ImageFileDbo = require('../models/ImageFileDbo');
+module.exports.newImage = async function(req, res) {
+  try {
+    await ImageCloudStorage.saveBinaryImage(
+      req.file.originalname,
+      req.file.buffer
+    );
 
-module.exports.newImage = function(req, res) {
-  console.log(req.file);
-  const file = myBucket.file(req.file.originalname);
+    const imageDetails = JSON.parse(req.body.imageDetails);
 
-  file.save(req.file.buffer, function(err) {
-    if (!err) {
-      console.log('SUCCESS SENT IMAGE');
-      res.status('202').send({});
-    }
-  });
+    const imageFile = {
+      title: imageDetails.title,
+      description: imageDetails.description,
+      photoTakeDate: imageDetails.photoTakeDate,
+      filePath: req.file.originalname,
+    };
+    ImageFileDbo.create(imageFile);
+    res.status(200).send({});
+  } catch (err) {
+    res.status(501).send({
+      error: 'Could not save image',
+    });
+  }
 };
