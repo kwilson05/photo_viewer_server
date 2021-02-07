@@ -6,12 +6,12 @@ const upload = multer({ storage: storage });
 
 const Controller = require('../controller/ImageController');
 
-// middleware that is specific to this router
 router.use(function timeLog(req, res, next) {
-  console.log('Time: ', Date.now());
+  console.log('Image Route: ', Date.now());
   next();
 });
 
-router.post('/', upload.single('imageFile'), Controller.newImage);
+router.post('/', upload.single('imageFile'), Controller.new);
+router.get('/', Controller.getAll);
 
 module.exports = router;

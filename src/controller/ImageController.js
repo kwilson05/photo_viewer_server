@@ -1,22 +1,38 @@
 const ImageCloudStorage = require('../models/ImageCloudStorage');
-const ImageFileDbo = require('../models/ImageFileDbo');
-module.exports.newImage = async function(req, res) {
+const { getAllImages, newImage } = require('../factory/ImageFileFactory');
+module.exports.new = async function(req, res) {
   try {
     const imageDetails = JSON.parse(req.body.imageDetails);
 
     imageDetails.filePath = req.file.originalname;
 
-    const newImage = await ImageFileDbo.create(imageDetails);
-    const cloudResponse = await ImageCloudStorage.saveBinaryImage(
+    const newImageDbo = await newImage(imageDetails);
+    await ImageCloudStorage.saveBinaryImage(
       req.file.originalname,
       req.file.buffer
     );
-    console.log(cloudResponse);
-    res.status(200).send(newImage);
+    res.status(200).send(newImageDbo.json);
   } catch (err) {
     console.log(err);
     res.status(501).send({
       error: 'Could not save image',
     });
+  }
+};
+
+module.exports.getAll = async function(req, res) {
+  try {
+    const allImageDbos = await getAllImages();
+
+    const allImages = [];
+
+    for (let imageDbo of allImageDbos) {
+      allImages.push(imageDbo.json);
+    }
+
+    res.status(200).send(allImages);
+  } catch (err) {
+    console.log(err);
+    res.status(501).send('Could not get all images');
   }
 };
