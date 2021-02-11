@@ -9,13 +9,14 @@ module.exports.getAllImages = async function() {
 
   for (let image of allImages) {
     allImageDbos.push(
-      new ImageFileDbo(
-        image.id,
-        image.filePath,
-        image.title,
-        image.photoTakeDate,
-        image.description
-      )
+      new ImageFileDbo({
+        id: image.id,
+        filePath: image.filePath,
+        title: image.title,
+        photoTakenDate: image.photoTakenDate,
+        description: image.description,
+        createdDate: image.createdDate,
+      })
     );
   }
 
@@ -32,11 +33,12 @@ module.exports.newImage = async function(imageFile) {
     },
   });
 
-  return new ImageFileDbo(
-    imageFileDbo.id,
-    imageFileDbo.filePath,
-    imageFileDbo.title,
-    imageFileDbo.photoTakeDate,
-    imageFileDbo.description
-  );
+  return new ImageFileDbo({
+    id: imageFileDbo.id,
+    filePath: imageFileDbo.filePath,
+    title: imageFileDbo.title,
+    photoTakenDate: imageFileDbo.photoTakenDate,
+    description: imageFileDbo.description,
+    createdDate: imageFileDbo.createdDate,
+  });
 };

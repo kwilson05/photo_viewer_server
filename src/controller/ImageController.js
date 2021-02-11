@@ -6,12 +6,12 @@ module.exports.new = async function(req, res) {
 
     imageDetails.filePath = req.file.originalname;
 
-    const newImageDbo = await newImage(imageDetails);
+    const imageDbo = await newImage(imageDetails);
     await ImageCloudStorage.saveBinaryImage(
       req.file.originalname,
       req.file.buffer
     );
-    res.status(200).send(newImageDbo.json);
+    res.status(200).send(imageDbo.json);
   } catch (err) {
     console.log(err);
     res.status(501).send({

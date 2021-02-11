@@ -6,15 +6,17 @@ class ImageFileDbo {
   #id;
   #filePath;
   #title;
-  #photoTakeDate;
+  #photoTakenDate;
   #description;
+  #createdDate;
 
-  constructor(id, filePath, title, photoTakeDate, description) {
-    this.#id = id;
-    this.#filePath = filePath;
-    this.#title = title;
-    this.#photoTakeDate = photoTakeDate;
-    this.#description = description;
+  constructor(imageFile) {
+    this.#id = imageFile.id;
+    this.#filePath = imageFile.filePath;
+    this.#title = imageFile.title;
+    this.#photoTakenDate = imageFile.photoTakenDate;
+    this.#description = imageFile.description;
+    this.#createdDate = imageFile.createdDate
   }
 
   get id()
@@ -34,7 +36,8 @@ class ImageFileDbo {
       filePath: this.#filePath,
       title: this.#title,
       description: this.#description,
-      photoTakenDate: this.#photoTakeDate
+      photoTakenDate: this.#photoTakenDate,
+      createdDate: this.#createdDate
     };
   }
 }
