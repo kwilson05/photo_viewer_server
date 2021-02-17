@@ -2,6 +2,10 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const ImageFileDbo = require('../models/ImageFileDbo');
 
+module.exports.getImage = async function() {
+  const image = await prisma.imageFile.find({});
+};
+
 module.exports.getAllImages = async function() {
   const allImages = await prisma.imagefile.findMany();
 

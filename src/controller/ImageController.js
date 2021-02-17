@@ -1,5 +1,5 @@
 const ImageCloudStorage = require('../models/ImageCloudStorage');
-const { getAllImages, newImage } = require('../factory/ImageFileFactory');
+const { getImage, getAllImages, newImage } = require('../factory/ImageFileFactory');
 module.exports.new = async function(req, res) {
   try {
     const imageDetails = JSON.parse(req.body.imageDetails);
@@ -13,7 +13,6 @@ module.exports.new = async function(req, res) {
     );
     res.status(200).send(imageDbo.json);
   } catch (err) {
-    console.log(err);
     res.status(501).send({
       error: 'Could not save image',
     });
@@ -32,7 +31,25 @@ module.exports.getAll = async function(req, res) {
 
     res.status(200).send(allImages);
   } catch (err) {
-    console.log(err);
+
     res.status(501).send('Could not get all images');
+  }
+};
+
+module.exports.get = async function(req, res) {
+  try{
+    if(!req.params.id)
+    {
+      res.status.(400).send({
+        error: 'Image was not found'
+      });
+    }
+
+    const imageDbo = await getImage(req.params.id);
+
+    res.status(200).send(imageDbo.json);
+  }
+  catch(err){
+    res.status(501).send("Failed finding image");
   }
 };
