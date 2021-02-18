@@ -2,8 +2,25 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const ImageFileDbo = require('../models/ImageFileDbo');
 
-module.exports.getImage = async function() {
-  const image = await prisma.imageFile.find({});
+module.exports.getImage = async function(imageId) {
+  const image = await prisma.imagefile.findUnique({
+    where: {
+      id: parseInt(imageId),
+    },
+  });
+
+  if (!image) {
+    return null;
+  }
+
+  return new ImageFileDbo({
+    id: image.id,
+    filePath: image.filePath,
+    title: image.title,
+    photoTakenDate: image.photoTakenDate,
+    description: image.description,
+    createdDate: image.createdDate,
+  });
 };
 
 module.exports.getAllImages = async function() {
@@ -41,8 +58,8 @@ module.exports.newImage = async function(imageFile) {
     id: imageFileDbo.id,
     filePath: imageFileDbo.filePath,
     title: imageFileDbo.title,
-    photoTakenDate: imageFileDbo.photoTakenDate,
+    photoTakenDate: imageFileDbo.photoTakenDate.toISOString(),
     description: imageFileDbo.description,
-    createdDate: imageFileDbo.createdDate,
+    createdDate: imageFileDbo.createdDate.toISOString(),
   });
 };

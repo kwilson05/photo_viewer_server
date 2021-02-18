@@ -14,9 +14,12 @@ class ImageFileDbo {
     this.#id = imageFile.id;
     this.#filePath = imageFile.filePath;
     this.#title = imageFile.title;
-    this.#photoTakenDate = imageFile.photoTakenDate;
+    //Remove offset
+
+    this.#photoTakenDate = imageFile.photoTakenDate.toISOString().slice(0, -1);
     this.#description = imageFile.description;
-    this.#createdDate = imageFile.createdDate
+    //Remove offset
+    this.#createdDate = imageFile.createdDate.toISOString().slice(0, -1);
   }
 
   get id()

@@ -13,5 +13,6 @@ router.use(function timeLog(req, res, next) {
 
 router.post('/', upload.single('imageFile'), Controller.new);
 router.get('/', Controller.getAll);
+router.get('/:id', Controller.get);
 
 module.exports = router;
