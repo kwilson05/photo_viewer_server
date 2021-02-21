@@ -13,7 +13,7 @@ module.exports.getImage = async function(imageId) {
     return null;
   }
 
-  return new ImageFileDbo({
+  const imageDbo = new ImageFileDbo({
     id: image.id,
     filePath: image.filePath,
     title: image.title,
@@ -21,6 +21,7 @@ module.exports.getImage = async function(imageId) {
     description: image.description,
     createdDate: image.createdDate,
   });
+  return imageDbo;
 };
 
 module.exports.getAllImages = async function() {
@@ -58,8 +59,8 @@ module.exports.newImage = async function(imageFile) {
     id: imageFileDbo.id,
     filePath: imageFileDbo.filePath,
     title: imageFileDbo.title,
-    photoTakenDate: imageFileDbo.photoTakenDate.toISOString(),
+    photoTakenDate: imageFileDbo.photoTakenDate,
     description: imageFileDbo.description,
-    createdDate: imageFileDbo.createdDate.toISOString(),
+    createdDate: imageFileDbo.createdDate,
   });
 };

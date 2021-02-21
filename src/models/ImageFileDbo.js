@@ -11,15 +11,13 @@ class ImageFileDbo {
   #createdDate;
 
   constructor(imageFile) {
+
     this.#id = imageFile.id;
     this.#filePath = imageFile.filePath;
     this.#title = imageFile.title;
-    //Remove offset
-
-    this.#photoTakenDate = imageFile.photoTakenDate.toISOString().slice(0, -1);
+    this.#photoTakenDate = imageFile.photoTakenDate;
     this.#description = imageFile.description;
-    //Remove offset
-    this.#createdDate = imageFile.createdDate.toISOString().slice(0, -1);
+    this.#createdDate = imageFile.createdDate;
   }
 
   get id()
@@ -32,6 +30,21 @@ class ImageFileDbo {
     return this.#filePath;
   }
 
+  set description(description)
+  {
+    this.#description = description;
+  }
+
+  set photoTakenDate(photoTakenDate)
+  {
+    this.#photoTakenDate = photoTakenDate;
+  }
+
+  set title(title)
+  {
+    this.#title = title;
+  }
+
   get json()
   {
     return {
@@ -39,9 +52,22 @@ class ImageFileDbo {
       filePath: this.#filePath,
       title: this.#title,
       description: this.#description,
-      photoTakenDate: this.#photoTakenDate,
-      createdDate: this.#createdDate
+      photoTakenDate: this.#photoTakenDate.toISOString().slice(0, -1),
+      createdDate: this.#createdDate.toISOString().slice(0, -1),
     };
+  }
+  save()
+  {
+    return prisma.imagefile.update({
+      where:{
+        id: this.#id,
+      },
+      data:{
+      title: this.#title,
+      description: this.#description,
+      photoTakenDate: this.#photoTakenDate,
+      }
+    });
   }
 }
 

@@ -4,6 +4,7 @@ const {
   getAllImages,
   newImage,
 } = require('../factory/ImageFileFactory');
+const { getDateByIso } = require('../utils/DateUtil');
 module.exports.new = async function(req, res) {
   try {
     const imageDetails = JSON.parse(req.body.imageDetails);
@@ -50,5 +51,27 @@ module.exports.get = async function(req, res) {
     res.status(200).send(imageDbo.json);
   } catch (err) {
     res.status(501).send('Failed finding image');
+  }
+};
+
+module.exports.edit = async function(req, res) {
+  try {
+    const imageDbo = await getImage(req.params.id);
+
+    if (!imageDbo) {
+      res.status(400).send({ error: "Image doesn't exist" });
+    }
+
+    const { photoTakenDate, description, title } = req.body.imageDetails;
+    imageDbo.photoTakenDate = getDateByIso(photoTakenDate);
+    imageDbo.description = description;
+    imageDbo.title = title;
+
+    await imageDbo.save();
+
+    res.status(200).send(imageDbo.json);
+  } catch (err) {
+    console.log(err);
+    res.status(501).send('Failed editing image');
   }
 };
