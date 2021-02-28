@@ -25,7 +25,13 @@ module.exports.getImage = async function(imageId) {
 };
 
 module.exports.getAllImages = async function() {
-  const allImages = await prisma.imagefile.findMany();
+  const allImages = await prisma.imagefile.findMany({
+    orderBy: [
+      {
+        createdDate: 'desc',
+      },
+    ],
+  });
 
   const allImageDbos = [];
 
