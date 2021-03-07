@@ -18,9 +18,7 @@ module.exports.new = async function(req, res) {
     );
     res.status(200).send(imageDbo.json);
   } catch (err) {
-    res.status(501).send({
-      error: 'Could not save image',
-    });
+    res.status(500).send({ error: 'Could not save image' });
   }
 };
 
@@ -36,7 +34,7 @@ module.exports.getAll = async function(req, res) {
 
     res.status(200).send(allImages);
   } catch (err) {
-    res.status(501).send('Could not get all images');
+    res.status(500).send('Could not get all images');
   }
 };
 
@@ -50,7 +48,7 @@ module.exports.get = async function(req, res) {
 
     res.status(200).send(imageDbo.json);
   } catch (err) {
-    res.status(501).send('Failed finding image');
+    res.status(500).send('Failed finding image');
   }
 };
 
@@ -71,8 +69,7 @@ module.exports.edit = async function(req, res) {
 
     res.status(200).send(imageDbo.json);
   } catch (err) {
-    console.log(err);
-    res.status(501).send('Failed editing image');
+    res.status(500).send('Failed editing image');
   }
 };
 
@@ -96,6 +93,11 @@ module.exports.batchDelete = async function(req, res) {
     }
     res.status(200).send({ sucess: sucess, failed: failed });
   } catch (err) {
-    res.status(501).send({ sucess: sucess, failed: failed });
+    debugger;
+    res.status(500).send({
+      error: 'Failed while deleting images',
+      sucess: sucess,
+      failed: failed,
+    });
   }
 };
