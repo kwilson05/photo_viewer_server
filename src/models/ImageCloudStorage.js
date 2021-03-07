@@ -13,3 +13,7 @@ module.exports.saveBinaryImage = async function(
   await file.save(imageBufferArray);
   return file;
 };
+
+module.exports.delete = async function(filePath) {
+  return await myBucket.file(filePath).delete();
+};

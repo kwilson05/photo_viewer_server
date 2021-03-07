@@ -69,6 +69,15 @@ class ImageFileDbo {
       }
     });
   }
+  delete()
+  {
+      return prisma.imagefile.delete({
+        where: {
+          id: this.#id,
+        }
+      })
+  }
+
 }
 
 module.exports = ImageFileDbo;

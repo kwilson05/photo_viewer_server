@@ -75,3 +75,27 @@ module.exports.edit = async function(req, res) {
     res.status(501).send('Failed editing image');
   }
 };
+
+module.exports.batchDelete = async function(req, res) {
+  const failed = [];
+  const sucess = [];
+  try {
+    for (const imageId of req.body.imageIds) {
+      try {
+        const imageDbo = await getImage(imageId);
+        if (!imageDbo) {
+          failed.push(imageId);
+        } else {
+          await ImageCloudStorage.delete(imageDbo.filePath);
+          await imageDbo.delete();
+          sucess.push(imageId);
+        }
+      } catch (err) {
+        failed.push(imageDbo);
+      }
+    }
+    res.status(200).send({ sucess: sucess, failed: failed });
+  } catch (err) {
+    res.status(501).send({ sucess: sucess, failed: failed });
+  }
+};

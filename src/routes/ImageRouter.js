@@ -12,6 +12,7 @@ router.use(function timeLog(req, res, next) {
 });
 
 router.post('/', upload.single('imageFile'), Controller.new);
+router.post('/batchDelete', Controller.batchDelete);
 router.post('/:id', Controller.edit);
 router.get('/', Controller.getAll);
 router.get('/:id', Controller.get);
