@@ -5,7 +5,7 @@ const storage = new Storage({
 });
 const myBucket = storage.bucket(process.env.GCS_BUCKET_NAME);
 
-module.exports.saveBinaryImage = async function(
+module.exports.saveBinaryImage = async function (
   imageFileName,
   imageBufferArray
 ) {
@@ -14,6 +14,6 @@ module.exports.saveBinaryImage = async function(
   return file;
 };
 
-module.exports.delete = async function(filePath) {
+module.exports.delete = async function (filePath) {
   return await myBucket.file(filePath).delete();
 };
