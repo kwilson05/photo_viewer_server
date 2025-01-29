@@ -1,7 +1,6 @@
 const { Storage } = require('@google-cloud/storage');
 const storage = new Storage({
   projectId: process.env.GCS_PROJECT_ID,
-  credentials: JSON.parse(process.env.GCS_KEY_FILE),
 });
 const myBucket = storage.bucket(process.env.GCS_BUCKET_NAME);
 
